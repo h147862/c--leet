@@ -30,18 +30,17 @@
 namespace p347;
 public class Solution {
     public int[] TopKFrequent(int[] nums, int k) {
-        var d = new Dictionary<int, int>();
-        var lookup = new Dictionary<int, IList<int>>();
-        var res = new int[k];
+        var freq = new Dictionary<int,int>();
+        var lookup = new Dictionary<int,IList<int>>();
         foreach(var n in nums){
-            if(d.ContainsKey(n)){
-                d[n]++;
+            if(freq.ContainsKey(n)){
+                freq[n]++;
             }
             else{
-                d[n] = 1;
+                freq[n] = 1;
             }
-        }   
-        foreach(var item in d){
+        }
+        foreach(var item in freq){
             if(lookup.ContainsKey(item.Value)){
                 lookup[item.Value].Add(item.Key);
             }
@@ -49,14 +48,16 @@ public class Solution {
                  lookup[item.Value] = new List<int>(){item.Key};
             }
         }
-        var freq = lookup.Keys.ToArray();
-        Array.Sort(freq);
-        var idx = 0;
-        for(var i=0;i<k;i++){
-            if(idx == k) break;
-            foreach(var n in lookup[freq[freq.Length-1-i]]){
-                 res[idx] = n;
-                 idx++;
+        var cnt = 0;
+        var res = new int[k];
+        for(var idx = nums.Length; idx >= 1; idx--){
+            if(cnt >= k) break;
+            IList<int> value;
+            if(lookup.TryGetValue(idx, out value)){
+                foreach(var n in value){
+                    res[cnt] = n;
+                    cnt++;
+                }
             }
         }
         return res;
