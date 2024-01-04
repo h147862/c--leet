@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using p22;
+using p704;
 var s = new Solution();
-var res = s.GenerateParenthesis(3);
+var n = new int[]{-1,0,3,5,9,12};
+var res = s.Search(n, 9);
 Console.Write(res);
