@@ -39,33 +39,29 @@ namespace p155;
 public class MinStack {
 
     private Stack<int> st;
+    private Stack<int> minimumStack;
+    private int minimum;
     private LinkedList<int> dq;
 
-    private LinkedListNode<int> minimum;
     public MinStack() {
         st = new Stack<int>();
-        dq = new LinkedList<int>();
+        minimumStack = new Stack<int>();
+        minimum = int.MaxValue; 
     }
     
     public void Push(int val) {
         st.Push(val);
-        if(minimum is null){
-            minimum = new LinkedListNode<int>(val);
-            dq.AddFirst(minimum);
-        }
-        else if(val<=minimum.Value){
-            dq.AddBefore(minimum, new LinkedListNode<int>(val));
-            minimum = minimum.Previous;
-        } 
-        else
-        {
-            dq.AddAfter(minimum, new LinkedListNode<int>(val));
+        if(val <= minimum){
+            minimum = val;
+            minimumStack.Push(minimum);
         }
     }
     
     public void Pop() {
-        st.Pop();
-        minimum = minimum.Next;
+        var m = st.Pop();
+        if(m == minimum) minimumStack.Pop();
+        if(minimumStack.Any())   minimum = minimumStack.Peek();
+        else minimum = int.MaxValue;
     }
     
     public int Top() {
@@ -73,7 +69,7 @@ public class MinStack {
     }
     
     public int GetMin() {
-        return minimum.Value;
+        return minimum;
     }
 }
 
