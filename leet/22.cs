@@ -25,32 +25,26 @@ namespace p22;
 
 public class Solution {
     public IList<string> GenerateParenthesis(int n) {
-        var st = new Stack<string>();
+        var tmp = new List<string>();
         var res = new List<string>();
-        Generate(1, 0, n,ref st,ref res, "(");
+        Generate(n, 1, 0, ref tmp, ref res, "(");
         return res;
     }
-
-    private void Generate(int lc, int rc, int n, ref Stack<string> st, ref List<string> res, string p){
-        st.Push(p);
-        if(lc + rc == n*2){
-            var tmp = new Stack<string>(st);
-            var s = "";
-            while(tmp.Any()){
-                s += tmp.Pop();
-            }
-            res.Add(s);
-            st.Pop();
-            return;
-        } 
-        else if (lc < rc) {
-            st.Pop();
+    public void Generate(int n, int lc, int rc, ref List<string> tmp, ref List<string> result, string item){
+        tmp.Add(item);
+        if(tmp.Count() == n*2){
+            result.Add(string.Join("", tmp));
+            tmp.RemoveAt(tmp.Count()-1);
             return;
         }
-
-        if(lc < n) Generate(lc+1, rc, n, ref st, ref res, "(");
-        if(rc < n) Generate(lc, rc+1, n, ref st, ref res, ")");
-        st.Pop();
-        return; 
+        if(lc<=rc){
+            if(lc<n) Generate(n, lc+1 , rc, ref tmp, ref result, "(");
+        }
+        else{
+            if(lc<n) Generate(n, lc+1 , rc, ref tmp, ref result, "(");
+            if(rc<n) Generate(n, lc , rc +1 , ref tmp, ref result, ")");
+        }
+        tmp.RemoveAt(tmp.Count()-1);
+        return;
     }
 }

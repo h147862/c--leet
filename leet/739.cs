@@ -32,13 +32,13 @@ public class Solution {
         var res = new int[temperatures.Length];
         var st = new Stack<int>();
         st.Push(0);
-        for(var i = 1; i<temperatures.Length; i++){
-            int top;
-            while(st.TryPeek(out top)){
-                if(temperatures[top] < temperatures[i]){
-                    res[top] = i - top;
+        for(var i = 1;i<temperatures.Length;i++){
+            int t;
+            while(st.TryPeek(out t)){
+                if(temperatures[t] < temperatures[i]){
                     st.Pop();
-                } 
+                    res[t] = i-t;
+                }
                 else break;
             }
             st.Push(i);

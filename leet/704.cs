@@ -32,22 +32,18 @@ namespace p704;
 
 public class Solution {
     public int Search(int[] nums, int target) {
-       return bsearch(nums, target);
-    }
-
-    private int bsearch(int[] arr, int target){
-        var mid = (int) arr.Length / 2;
-        if(arr[mid] == target) return mid;
-        else if (arr.Length == 1) return -1;
-        else if (arr[mid] > target){
-            var sub = new int[mid+1];
-            Array.Copy(arr, 0,sub , 0, mid+1);
-            bsearch(sub, target);
-        } 
-        else{
-            var sub = new int[arr.Length - mid];
-            Array.Copy(arr, mid,sub , 0, arr.Length - mid);
-            bsearch(sub, target);
+        var l = 0;
+        var r = nums.Length -1;
+        int mid;
+        while(l<=r){
+            mid = (l+r) / 2;
+            if(nums[mid] == target) return mid;
+            else if (nums[mid] > target){
+                r = mid -1;
+            }
+            else {
+                l = mid +1;
+            }
         }
         return -1;
     }
