@@ -37,26 +37,22 @@ namespace p875;
 
 public class Solution {
     public int MinEatingSpeed(int[] piles, int h) {
-        int l = piles.Min();
+        int l = 1;
         int r = piles.Max();
         int mid;
-        var speed = r;
         while(l<=r){
             mid = (l+r) / 2;
-            decimal cost = 0;
+            double cost = 0;
             foreach(var n in piles){
-                cost += Math.Ceiling((decimal)((float)n / mid));
+                cost += Math.Ceiling( (double) n/ (double)mid);
             }
             if(cost <= h){
-                if(mid <= speed) {
-                    speed = mid;
-                    r = mid - 1 ;
-                }
+                r = mid - 1 ;
             }
             else{
                 l = mid + 1 ;
             }
         }
-        return speed;
+        return l;
     }
 }
